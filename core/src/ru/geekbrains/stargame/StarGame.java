@@ -29,15 +29,18 @@ public class StarGame extends ApplicationAdapter {
 
 		batch = new SpriteBatch();
 		//img = new Texture("badlogic.jpg");
+		//Картинка фона звёздного неба
 		img = new Texture("sky.jpg");
+		//Картинка корабля
 		shipImg = new Texture("ship_1.png");
 
+		//Координаты корабля
     	ship = new Rectangle();
 		ship.x = 800 / 2 - 79 / 2;
 		ship.y = 20;
+		//Размеры корабля
 		ship.width = 79;
 		ship.height = 40;
-		//range = new Range()
 	}
 
 	@Override
@@ -49,40 +52,34 @@ public class StarGame extends ApplicationAdapter {
 
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+		//Отрисовка фона
 		batch.draw(img, 0, 0);
+		//Отрисовка корабля
 		batch.draw(shipImg, ship.x, ship.y);
-//		batch.draw(shipImg, 10, 10);
 		batch.end();
 
+		//Обработка нажатий точскрина на android по горизонтале
 		if(Gdx.input.isTouched()){
 			touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 			camera.unproject(touchPos);
 			ship.x = (int) (touchPos.x -79 / 2);
 		}
 
-
+		//Движение корабля клавишами стрелок навлево и направо
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) ship.x -= 200 * Gdx.graphics.getDeltaTime();
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) ship.x += 200 * Gdx.graphics.getDeltaTime();
 
+		//Движение корабля клавишами стрелок вверх и вниз
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) ship.y += 200 * Gdx.graphics.getDeltaTime();
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) ship.y -= 200 * Gdx.graphics.getDeltaTime();
 
+		//Ограничение выхода корабля за пределы экрана по горизонтале
 		if (ship.x < 0) ship.x = 0;
 		if (ship.x > 800 - 79) ship.x = 800 - 79;
 
-//		if (TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
-//
-//		Iterator<Rectangle> iter = raindrops.iterator();
-//		while (iter.hasNext()){
-//			Rectangle raindrop = iter.next();
-//			raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
-//			if (raindrop.y + 64 < 0) iter.remove();
-//			if (raindrop.overlaps(bucket)){
-//				dropSound.play();
-//				iter.remove();
-//			}
-//		}
-
+		//Ограничение выхода корабля за пределы экрана по вертикале
+		if (ship.y < 0) ship.y = 0;
+		if (ship.y > 480 - 40) ship.y = 480 - 40;
 	}
 	
 	@Override
