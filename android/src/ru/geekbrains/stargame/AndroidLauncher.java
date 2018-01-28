@@ -13,6 +13,6 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
-		initialize(new StarGame(), config);
+		initialize(new Star2DGame(), config); //StarGame(), config);
 	}
 }

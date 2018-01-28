@@ -1,8 +1,10 @@
 package ru.geekbrains.stargame;
 
-/**
- * Created by User on 28.01.2018.
- */
+import com.badlogic.gdx.Game;
 
-public class Star2DGame {
+public class Star2DGame extends Game {
+    @Override
+    public void create() {
+        setScreen(new MenuScreen(this));
+    }
 }

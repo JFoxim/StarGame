@@ -9,3 +9,10 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project {
     name = appName + "-core"
 }
+
+dependencies {
+    compile project(path: ':engine')
+    compile project(path: ':engine')
+    compile project(path: ':engine')
+    compile project(path: ':engine')
+}
