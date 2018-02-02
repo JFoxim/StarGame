@@ -1,6 +1,5 @@
 package ru.geekbrains.stargame;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ru.geekbrains.stargame.engine.Sprite;
@@ -10,8 +9,8 @@ import ru.geekbrains.stargame.engine.math.Rect;
  * Created by User on 01.02.2018.
  */
 
-public class ExitButton extends Sprite {
-    public ExitButton(TextureRegion region) {
+public class Ship extends Sprite {
+    public Ship(TextureRegion region) {
         super(region);
     }
 
