@@ -17,7 +17,7 @@ public class Base2DScreen implements Screen, InputProcessor{
     protected Game game;
     private Rect screenBounds; // границы области рисования
     private Rect worldBounds; //границы мировой системы координат
-    private Rect glBoubds;  //Дефолтные границы проекции мира - gl
+    private Rect glBounds;  //Дефолтные границы проекции мира - gl
 
     protected SpriteBatch batch;
 
@@ -32,10 +32,11 @@ public class Base2DScreen implements Screen, InputProcessor{
 
     @Override
     public void show() {
+        System.out.println("show");
         Gdx.input.setInputProcessor(this);
         this.screenBounds = new Rect();
         this.worldBounds = new Rect();
-        this.glBoubds = new Rect(0, 0, 1f, 1f);
+        this.glBounds = new Rect(0, 0, 1f, 1f);
         this.worldToGl = new Matrix4();
         this.screenToWorld = new Matrix3();
         if (batch != null){
@@ -55,6 +56,7 @@ public class Base2DScreen implements Screen, InputProcessor{
 
     @Override
     public void resize(int width, int height) {
+        System.out.println("resize width= " + width + " height = " + height);
      screenBounds.setSize(width, height);
      screenBounds.setLeft(0);
      screenBounds.setBottom(0);
@@ -62,9 +64,10 @@ public class Base2DScreen implements Screen, InputProcessor{
      float aspect = width/(float)height;
      worldBounds.setHeight(1f);
      worldBounds.setWidth(1f*aspect);
-     MatrixUtils.calcTransitionMatrix(worldToGl, worldBounds, glBoubds);
+        MatrixUtils.calcTransitionMatrix(worldToGl, worldBounds, glBounds);
      batch.setProjectionMatrix(worldToGl);
      MatrixUtils.calcTransitionMatrix(screenToWorld, screenBounds, worldBounds);
+
      resize(worldBounds);
     }
 
@@ -85,23 +88,26 @@ public class Base2DScreen implements Screen, InputProcessor{
 
     @Override
     public void dispose() {
-
+        System.out.println("dispose");
         batch.dispose();
         batch = null;
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println("keyDown keycode=" + keycode);
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        System.out.println("keyUp keycode=" + keycode);
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
+        System.out.println("keyTyped character=" + character);
         return false;
     }
 
@@ -120,7 +126,7 @@ public class Base2DScreen implements Screen, InputProcessor{
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         touch.set(screenX, screenBounds.getHeight()- screenY).mul(screenToWorld);
-        System.out.println("touchUP X=" + touch.x + " Y=" + touch.y);
+        System.out.println("touchUp X=" + touch.x + " Y=" + touch.y);
         touchUp(touch, pointer);
         return false;
     }

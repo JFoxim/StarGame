@@ -3,10 +3,32 @@ package ru.geekbrains.stargame.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
+import ru.geekbrains.stargame.Background;
+import ru.geekbrains.stargame.engine.ActionListener;
 import ru.geekbrains.stargame.engine.Base2DScreen;
+import ru.geekbrains.stargame.engine.math.Rnd;
+import ru.geekbrains.stargame.star.Star;
+import ru.geekbrains.stargame.ui.ButtonExit;
+import ru.geekbrains.stargame.ui.ButtonPlay;
 
-public class GameScreen extends Base2DScreen {
+public class GameScreen extends Base2DScreen implements ActionListener {
+
+    private static final float BUTTON_HEIGHT = 0.15f;
+    private static final float BUTTON_PRESS_SCALE = 0.9f;
+
+    private Texture backgroundTexture;
+    private Background background;
+
+    private TextureAtlas atlas;
+
+    private ButtonExit buttonExit;
+
+    private Star[] star = new Star[20];
 
     public GameScreen(Game game) {
         super(game);
@@ -15,20 +37,67 @@ public class GameScreen extends Base2DScreen {
     @Override
     public void show() {
         super.show();
+        backgroundTexture = new Texture("bg.png");
+        background = new Background(new TextureRegion(backgroundTexture));
+
+        atlas = new TextureAtlas("menuAtlas.tpack");
+        buttonExit = new ButtonExit(atlas, BUTTON_PRESS_SCALE, this);
+        buttonExit.setHeightProportion(BUTTON_HEIGHT);
+        for (int i=0; i < star.length; i++) {
+            star[i] = new Star(atlas, Rnd.nextFloat(-0.005f, 0.005f), Rnd.nextFloat(-0.5f, -0.1f), 0.01f);
+        }
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+        update(delta);
+        draw();
+    }
+
+    public void update(float delta) {
+        for (int i=0; i < star.length; i++) {
+            star[i].update(delta);
+        }
+    }
+
+    public void draw() {
         Gdx.gl.glClearColor(0.7f, 0.3f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-
+        background.draw(batch);
+        for (int i=0; i < star.length; i++) {
+            star[i].draw(batch);
+        }
+        buttonExit.draw(batch);
         batch.end();
     }
 
     @Override
     public void dispose() {
+        backgroundTexture.dispose();
+        atlas.dispose();
         super.dispose();
     }
-}
+
+    @Override
+    protected void touchUp(Vector2 touch, int pointer) {
+        super.touchUp(touch, pointer);
+        buttonExit.touchUp(touch, pointer);
+    }
+
+    @Override
+    protected void touchDown(Vector2 touch, int pointer) {
+        super.touchDown(touch, pointer);
+        buttonExit.touchDown(touch, pointer);
+    }
+
+    @Override
+    public void actionPerformed(Object src) {
+        if (src == buttonExit) {
+            game.setScreen(new MenuScreen(game));
+        } else
+            throw new RuntimeException("Unknown src " + src);
+        }
+
+    }

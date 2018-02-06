@@ -51,7 +51,7 @@ public class MenuScreen extends Base2DScreen  {
         playButton = new PlayButton(new TextureRegion(playButtonTexture));
         exitButton = new ExitButton(new TextureRegion(exitButtonTexture));
         ship = new Ship(new TextureRegion(shipTexture));
-        rectPlay = new Rect(background.getHeight()-0.47f, -0.45f, 0.03f, 0.03f);//(0.47f, -0.45f, 0.03f, 0.03f);
+        rectPlay = new Rect(background.getHeight()-0.47f, -0.45f, 0.03f, 0.03f);
         rectExit = new Rect(background.getHeight()-0.6f, -0.45f, 0.03f, 0.03f);
         rectShip = new Rect(0f, 0f, 0.08f, 0.08f);
 
