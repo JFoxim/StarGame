@@ -32,6 +32,7 @@ public class BulletPool <T extends Bullet> extends SpritesPool {
         Bullet bullet;
         this.mainShip = mainShip;
         this.height = height;
+        this.atlas = atlas;
         if (freeObjects.isEmpty()) {
             bullet = newObject();
         } else {

@@ -58,7 +58,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             star[i] = new Star(atlas, Rnd.nextFloat(-0.005f, 0.005f), Rnd.nextFloat(-0.5f, -0.1f), STAR_HEIGHT);
         }
         bullets = new BulletPool<Bullet>();
-        bullets.obtain(atlasMain, mainShip, 0.2f);
+        bullets.obtain(atlasMain, mainShip, 0.02f);
      }
 
     @Override

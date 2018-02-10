@@ -26,18 +26,18 @@ public class Bullet extends Sprite  {
     }
 
     protected void checkAndHandleBounds() {
-        if (getRight() < worldBounds.getLeft()) setLeft(worldBounds.getRight());
-        if (getLeft() > worldBounds.getRight()) setRight(worldBounds.getLeft());
-        if (getTop() < worldBounds.getBottom()) setBottom(worldBounds.getTop());
-        if (getBottom() > worldBounds.getTop()) setTop(worldBounds.getBottom());
+//        if (getRight() < worldBounds.getLeft()) setLeft(worldBounds.getRight());
+//        if (getLeft() > worldBounds.getRight()) setRight(worldBounds.getLeft());
+//        if (getTop() < worldBounds.getBottom()) setBottom(worldBounds.getTop());
+//        if (getBottom() > worldBounds.getTop()) setTop(worldBounds.getBottom());
     }
 
     @Override
     public void resize(Rect worldBounds) {
         this.worldBounds = worldBounds;
-        float posX = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
-        float posY = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
-        pos.set(posX, posY);
+        float posX = v.x; //Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
+        float posY = v.y; //Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
+        pos.set(posX, posY).rotate(180);
     }
 
     public void keyDown(int keycode) {
