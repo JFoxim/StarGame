@@ -19,6 +19,9 @@ import ru.geekbrains.stargame.ui.ButtonPlay;
 
 public class MenuScreen extends Base2DScreen implements ActionListener {
 
+    private static final int STAR_COUNT = 50;
+    private static final float STAR_HEIGHT = 0.01f;
+
     private static final float BUTTON_HEIGHT = 0.15f;
     private static final float BUTTON_PRESS_SCALE = 0.9f;
 
@@ -30,7 +33,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
     private ButtonExit buttonExit;
     private ButtonPlay buttonPlay;
 
-    private Star[] star = new Star[20];
+    private Star[] star;
 
     public MenuScreen(Game game) {
         super(game);
@@ -47,8 +50,9 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
         buttonExit.setHeightProportion(BUTTON_HEIGHT);
         buttonPlay = new ButtonPlay(atlas, BUTTON_PRESS_SCALE, this);
         buttonPlay.setHeightProportion(BUTTON_HEIGHT);
+        star = new Star[STAR_COUNT];
         for (int i=0; i < star.length; i++) {
-            star[i] = new Star(atlas, Rnd.nextFloat(-0.005f, 0.005f), Rnd.nextFloat(-0.5f, -0.1f), 0.01f);
+            star[i] = new Star(atlas, Rnd.nextFloat(-0.005f, 0.005f), Rnd.nextFloat(-0.5f, -0.1f), STAR_HEIGHT);
         }
     }
 

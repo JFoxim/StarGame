@@ -17,6 +17,8 @@ public class MainShip extends Sprite {
 
     private boolean pressedLeft;
     private boolean pressedRight;
+    private int pointer;
+    private Vector2 touch = new Vector2();
 
     private Rect worldBounds;
 
@@ -85,7 +87,18 @@ public class MainShip extends Sprite {
 
     @Override
     public void touchDown(Vector2 touch, int pointer) {
-        if (worldBounds.pos.x > touch.x) {
+        this.touch = touch;
+        if (this.pos.x > touch.x) {
+               moveLeft();
+        } else {
+               moveRight();
+        }
+        this.pointer = pointer;
+    }
+
+    @Override
+    public void touchDragged(Vector2 touch, int pointer) {
+        if (this.pos.x > touch.x) {
             moveLeft();
         } else {
             moveRight();
@@ -94,7 +107,8 @@ public class MainShip extends Sprite {
 
     @Override
     public void touchUp(Vector2 touch, int pointer) {
-        stop();
+        if (this.pointer == pointer)
+            stop();
     }
 
     private void moveRight() {
@@ -108,4 +122,5 @@ public class MainShip extends Sprite {
     private void stop() {
         v.setZero();
     }
+
 }
