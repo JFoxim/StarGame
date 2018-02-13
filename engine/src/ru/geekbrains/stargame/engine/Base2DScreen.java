@@ -13,20 +13,22 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.engine.math.MatrixUtils;
 import ru.geekbrains.stargame.engine.math.Rect;
 
-public class Base2DScreen implements Screen, InputProcessor{
-    protected Game game;
-    private Rect screenBounds; // границы области рисования
-    private Rect worldBounds; //границы мировой системы координат
-    private Rect glBounds;  //Дефолтные границы проекции мира - gl
+public class Base2DScreen implements Screen, InputProcessor {
 
-    protected SpriteBatch batch;
+    protected Game game;
+
+    private Rect screenBounds; // границы области рисования в пикселях
+    private Rect worldBounds; // границы проекции мировых координат
+    private Rect glBounds; // дефолтные границы проекции мир - gl
 
     protected Matrix4 worldToGl;
     protected Matrix3 screenToWorld;
-    protected Vector2 touch = new Vector2();
 
+    protected SpriteBatch batch;
 
-    public Base2DScreen(Game game){
+    private final Vector2 touch = new Vector2();
+
+    public Base2DScreen(Game game) {
         this.game = game;
     }
 
@@ -39,8 +41,8 @@ public class Base2DScreen implements Screen, InputProcessor{
         this.glBounds = new Rect(0, 0, 1f, 1f);
         this.worldToGl = new Matrix4();
         this.screenToWorld = new Matrix3();
-        if (batch != null){
-            throw new RuntimeException("batch != null, повторная screen без");
+        if (batch != null) {
+            throw new RuntimeException("batch != null, повторная установка screen без dispose");
         }
         batch = new SpriteBatch();
     }
@@ -50,22 +52,21 @@ public class Base2DScreen implements Screen, InputProcessor{
 
     }
 
-
     @Override
     public void resize(int width, int height) {
         System.out.println("resize width= " + width + " height = " + height);
-     screenBounds.setSize(width, height);
-     screenBounds.setLeft(0);
-     screenBounds.setBottom(0);
+        screenBounds.setSize(width, height);
+        screenBounds.setLeft(0);
+        screenBounds.setBottom(0);
 
-     float aspect = width/(float)height;
-     worldBounds.setHeight(1f);
-     worldBounds.setWidth(1f*aspect);
+        float aspect = width / (float) height;
+        worldBounds.setHeight(1f);
+        worldBounds.setWidth(1f * aspect);
         MatrixUtils.calcTransitionMatrix(worldToGl, worldBounds, glBounds);
-     batch.setProjectionMatrix(worldToGl);
-     MatrixUtils.calcTransitionMatrix(screenToWorld, screenBounds, worldBounds);
+        batch.setProjectionMatrix(worldToGl);
+        MatrixUtils.calcTransitionMatrix(screenToWorld, screenBounds, worldBounds);
 
-     resize(worldBounds);
+        resize(worldBounds);
     }
 
     protected void resize(Rect worldBounds) {
@@ -126,13 +127,13 @@ public class Base2DScreen implements Screen, InputProcessor{
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        touch.set(screenX, screenBounds.getHeight()- screenY).mul(screenToWorld);
+        touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorld);
         System.out.println("touchUp X=" + touch.x + " Y=" + touch.y);
         touchUp(touch, pointer);
         return false;
     }
 
-    protected  void touchUp(Vector2 touch, int pointer){
+    protected void touchUp(Vector2 touch, int pointer) {
 
     }
 
@@ -144,7 +145,7 @@ public class Base2DScreen implements Screen, InputProcessor{
         return false;
     }
 
-    protected void touchDragged(Vector2 touch, int pointer){
+    protected void touchDragged(Vector2 touch, int pointer) {
 
     }
 

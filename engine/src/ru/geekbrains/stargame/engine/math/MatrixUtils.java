@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 
 /**
- * РЈС‚РёР»РёС‚Р° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РјР°С‚СЂРёС†Р°РјРё
+ * Утилита для работы с матрицами
  */
 public class MatrixUtils {
 
@@ -13,10 +13,10 @@ public class MatrixUtils {
     }
 
     /**
-     * Р Р°СЃС‡С‘С‚ РјР°С‚СЂРёС†С‹ РїРµСЂРµС…РѕРґР° 4x4
-     * @param mat РёС‚РѕРіРѕРІР°СЏ РјР°С‚СЂРёС†Р° РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёР№
-     * @param src РёСЃС…РѕРґРЅС‹Р№ РєРІР°РґСЂР°С‚
-     * @param dst РёС‚РѕРіРѕРІС‹Р№ РєРІР°РґСЂР°С‚
+     * Расчёт матрицы перехода 4x4
+     * @param mat итоговая матрица преобразований
+     * @param src исходный квадрат
+     * @param dst итоговый квадрат
      */
     public static void calcTransitionMatrix(Matrix4 mat, Rect src, Rect dst) {
         float scaleX = dst.getWidth() / src.getWidth();
@@ -25,10 +25,10 @@ public class MatrixUtils {
     }
 
     /**
-     * Р Р°СЃС‡С‘С‚ РјР°С‚СЂРёС†С‹ РїРµСЂРµС…РѕРґР° 3x3
-     * @param mat РёС‚РѕРіРѕРІР°СЏ РјР°С‚СЂРёС†Р° РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёР№
-     * @param src РёСЃС…РѕРґРЅС‹Р№ РєРІР°РґСЂР°С‚
-     * @param dst РёС‚РѕРіРѕРІС‹Р№ РєРІР°РґСЂР°С‚
+     * Расчёт матрицы перехода 3x3
+     * @param mat итоговая матрица преобразований
+     * @param src исходный квадрат
+     * @param dst итоговый квадрат
      */
     public static void calcTransitionMatrix(Matrix3 mat, Rect src, Rect dst) {
         float scaleX = dst.getWidth() / src.getWidth();

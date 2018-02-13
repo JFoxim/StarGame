@@ -2,6 +2,8 @@ package ru.geekbrains.stargame.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -9,35 +11,41 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.stargame.Background;
-import ru.geekbrains.stargame.Bullet.Bullet;
 import ru.geekbrains.stargame.Bullet.BulletPool;
-import ru.geekbrains.stargame.engine.ActionListener;
 import ru.geekbrains.stargame.engine.Base2DScreen;
 import ru.geekbrains.stargame.engine.math.Rect;
 import ru.geekbrains.stargame.engine.math.Rnd;
+import ru.geekbrains.stargame.explosion.Explosion;
+import ru.geekbrains.stargame.explosion.ExplosionPool;
+import ru.geekbrains.stargame.ship.EnemyPool;
+import ru.geekbrains.stargame.ship.EnemyShip;
 import ru.geekbrains.stargame.ship.MainShip;
-import ru.geekbrains.stargame.star.Star;
-import ru.geekbrains.stargame.ui.ButtonExit;
-import ru.geekbrains.stargame.ui.ButtonPlay;
+import ru.geekbrains.stargame.star.TrackingStar;
 
-public class GameScreen extends Base2DScreen implements ActionListener {
+public class GameScreen extends Base2DScreen {
 
-    private static final float BUTTON_HEIGHT = 0.15f;
-    private static final float BUTTON_PRESS_SCALE = 0.9f;
-    private static final int STAR_COUNT = 20;
+    private static final int STAR_COUNT = 56;
     private static final float STAR_HEIGHT = 0.01f;
 
     private Texture backgroundTexture;
     private Background background;
 
     private TextureAtlas atlas;
-    private TextureAtlas atlasMain;
 
-    private ButtonExit buttonExit;
     private MainShip mainShip;
 
-    private Star[] star;
-    private BulletPool<Bullet> bullets;
+    private TrackingStar star[];
+
+    private final BulletPool bulletPool = new BulletPool();
+    private EnemyPool enemyPool;
+    private ExplosionPool explosionPool;
+    private EnemyShip enemyShip;
+
+    protected float EnemyInterval;
+    protected float EnemyTimer;
+
+    private Sound soundExplosion;
+    private Music music;
 
     public GameScreen(Game game) {
         super(game);
@@ -46,34 +54,60 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     @Override
     public void show() {
         super.show();
-        backgroundTexture = new Texture("bg.png");
+
+        music  = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        music.setLooping(true);
+        music.play();
+        soundExplosion = Gdx.audio.newSound(Gdx.files.internal("sounds/explosion.wav"));
+
+        backgroundTexture = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(backgroundTexture));
-        atlasMain = new TextureAtlas("mainAtlas.tpack");
-        mainShip = new MainShip(atlasMain);
-        atlas = new TextureAtlas("menuAtlas.tpack");
-        //buttonExit = new ButtonExit(atlas, BUTTON_PRESS_SCALE, this);
-        //buttonExit.setHeightProportion(BUTTON_HEIGHT);
-        star = new Star[STAR_COUNT];
-        for (int i=0; i < star.length; i++) {
-            star[i] = new Star(atlas, Rnd.nextFloat(-0.005f, 0.005f), Rnd.nextFloat(-0.5f, -0.1f), STAR_HEIGHT);
+
+        atlas = new TextureAtlas("textures/mainAtlas.tpack");
+
+        mainShip = new MainShip(atlas, bulletPool);
+
+        star = new TrackingStar[STAR_COUNT];
+        for (int i = 0; i < star.length; i++) {
+            star[i] = new TrackingStar(atlas, Rnd.nextFloat(-0.005f, 0.005f), Rnd.nextFloat(-0.5f, -0.1f), STAR_HEIGHT, mainShip.getV());
         }
-        bullets = new BulletPool<Bullet>();
-        bullets.obtain(atlasMain, mainShip, 0.02f);
-     }
+        this.explosionPool = new ExplosionPool(atlas, soundExplosion);
+
+        enemyPool = new EnemyPool(atlas, bulletPool);
+        this.EnemyInterval = 1.5f;
+        enemyPool.obtain();
+        //enemyShip = new EnemyShip(atlas, bulletPool);
+      }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+        deleteAllDestroyed();
         update(delta);
         draw();
     }
 
+    public void deleteAllDestroyed() {
+        bulletPool.freeAllDestroyedActiveObjects();
+        explosionPool.freeAllDestroyedActiveObjects();
+        enemyPool.freeAllDestroyedActiveObjects();
+    }
+
     public void update(float delta) {
-        for (int i=0; i < star.length; i++) {
+        for (int i = 0; i < star.length; i++) {
             star[i].update(delta);
         }
+        bulletPool.updateActiveObjects(delta);
+        explosionPool.updateActiveObjects(delta);
         mainShip.update(delta);
-        bullets.updateActiveObjects(delta);
+       EnemyTimer += delta;
+        if (EnemyTimer >= EnemyInterval) {
+            EnemyTimer = 0f;
+            EnemyShip enemyShip = enemyPool.obtain();
+            enemyShip.pos.x = 0.07f;
+            enemyShip.pos.y= 0.7f;
+        }
+        enemyPool.updateActiveObjects(delta);
     }
 
     public void draw() {
@@ -81,47 +115,14 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        for (int i=0; i < star.length; i++) {
+        for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
-       // buttonExit.draw(batch);
         mainShip.draw(batch);
-        bullets.drawActiveObjects(batch);
+        bulletPool.drawActiveObjects(batch);
+        explosionPool.drawActiveObjects(batch);
+        enemyPool.drawActiveObjects(batch);
         batch.end();
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        backgroundTexture.dispose();
-        atlas.dispose();
-        atlasMain.dispose();
-        bullets.dispose();
-    }
-
-    @Override
-    protected void touchUp(Vector2 touch, int pointer) {
-        super.touchUp(touch, pointer);
-        //buttonExit.touchUp(touch, pointer);
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        mainShip.keyDown(keycode);
-        bullets.keyDown(keycode);
-        return false;
-    }
-
-  @Override
-    public boolean keyUp(int keycode) {
-        mainShip.keyUp(keycode);
-        bullets.keyUp(keycode);
-        return false;
-    }
-
-    @Override
-    public void touchDragged(Vector2 touch, int pointer) {
-        mainShip.touchDragged(touch, pointer);
     }
 
     @Override
@@ -131,23 +132,48 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         for (int i = 0; i < star.length; i++) {
             star[i].resize(worldBounds);
         }
-        //buttonExit.resize(worldBounds);
-        bullets.resize(worldBounds);
         mainShip.resize(worldBounds);
+        enemyPool.resize(worldBounds);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        backgroundTexture.dispose();
+        atlas.dispose();
+        bulletPool.dispose();
+        explosionPool.dispose();
+        soundExplosion.dispose();
+        enemyPool.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        mainShip.keyDown(keycode);
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        mainShip.keyUp(keycode);
+        return false;
     }
 
     @Override
     protected void touchDown(Vector2 touch, int pointer) {
-        super.touchDown(touch, pointer);
-        //buttonExit.touchDown(touch, pointer);
         mainShip.touchDown(touch, pointer);
+
+        Explosion explosion = explosionPool.obtain();
+        explosion.set(0.1f, touch);
+
+//        EnemyShip enemyShip =  enemyPool.obtain();
+//        enemyShip.pos.x = touch.x;
+//        enemyShip.pos.y = touch.y;
+
     }
 
     @Override
-    public void actionPerformed(Object src) {
-        if (src == buttonExit) {
-            game.setScreen(new MenuScreen(game));
-        } else
-            throw new RuntimeException("Unknown src " + src);
-        }
+    protected void touchUp(Vector2 touch, int pointer) {
+        mainShip.touchUp(touch, pointer);
     }
+}

@@ -1,6 +1,6 @@
 package ru.geekbrains.stargame.engine;
 
-import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -17,8 +17,12 @@ public class Sprite extends Rect {
 
     protected boolean isDestroyed;
 
-    public Sprite(TextureRegion region){
-        if (region == null){
+    public Sprite() {
+
+    }
+
+    public Sprite(TextureRegion region) {
+        if (region == null) {
             throw new NullPointerException("region is null");
         }
         regions = new TextureRegion[1];
@@ -29,15 +33,15 @@ public class Sprite extends Rect {
         this.regions = Regions.split(region, rows, cols, frames);
     }
 
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch) {
         batch.draw(
-                regions[frame], //текущий регион
-                getLeft(), getBottom(), //точка отрисовка
-                halfWidth, halfHeight,  // точка вращения
-                getWidth(), getHeight(), //ширина и высота
-                scale, scale, // маштаю по x и y
-                angle // угол
-                );
+                regions[frame], // текущий регион
+                getLeft(), getBottom(), // точка отрисовки
+                halfWidth, halfHeight, // точка вращения
+                getWidth(), getHeight(), // ширина и высота
+                scale, scale, // масштаб по x и y
+                angle // угол вращения
+        );
     }
 
     public void setWithProportion(float width) {

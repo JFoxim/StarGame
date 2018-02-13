@@ -3,13 +3,13 @@ package ru.geekbrains.stargame.engine.math;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * РџСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРє
+ * Прямоугольник
  */
 public class Rect {
 
-    public final Vector2 pos = new Vector2(); // РїРѕР·РёС†РёСЏ РїРѕ С†РµРЅС‚СЂСѓ
-    protected float halfWidth; // РїРѕР»РѕРІРёРЅР° С€РёСЂРёРЅС‹
-    protected float halfHeight; // РїРѕР»РѕРІРёРЅР° РІС‹СЃРѕС‚С‹
+    public final Vector2 pos = new Vector2(); // позиция по центру
+    protected float halfWidth; // половина ширины
+    protected float halfHeight; // половина высоты
 
     public Rect() {
 
