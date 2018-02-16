@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ru.geekbrains.stargame.engine.Sprite;
-import ru.geekbrains.stargame.engine.math.Rect;
 
 public abstract class SpritesPool<T extends Sprite> {
 
@@ -71,9 +70,7 @@ public abstract class SpritesPool<T extends Sprite> {
 
     }
 
-    public void resize(Rect worldBounds){
-        for (int i = 0; i < activeObjects.size(); i++) {
-            activeObjects.get(i).resize(worldBounds);
-        }
+    public List<T> getActiveObjects() {
+        return activeObjects;
     }
 }

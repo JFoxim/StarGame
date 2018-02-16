@@ -1,33 +1,30 @@
 package ru.geekbrains.stargame.ship;
 
-
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import ru.geekbrains.stargame.Bullet.BulletPool;
 import ru.geekbrains.stargame.engine.math.Rect;
 import ru.geekbrains.stargame.engine.pool.SpritesPool;
+import ru.geekbrains.stargame.explosion.ExplosionPool;
 
 public class EnemyPool extends SpritesPool<EnemyShip> {
 
-    private final TextureAtlas atlas;
-    private BulletPool bulletPool;
-    //private  Rect worldBounds;
+    private final BulletPool bulletPool;
+    private final ExplosionPool explosionPool;
+    private final Rect worldBounds;
+    private final MainShip mainShip;
+    private final Sound bulletSound;
 
-    public EnemyPool(TextureAtlas atlas, BulletPool bulletPool) {
-        this.atlas = atlas;
+    public EnemyPool(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, MainShip mainShip, Sound bulletSound) {
         this.bulletPool = bulletPool;
-        //this.worldBounds = worldBounds;
+        this.explosionPool = explosionPool;
+        this.worldBounds = worldBounds;
+        this.mainShip = mainShip;
+        this.bulletSound = bulletSound;
     }
+
     @Override
     protected EnemyShip newObject() {
-        return new EnemyShip(atlas, bulletPool);
+        return new EnemyShip(bulletPool, explosionPool, worldBounds, mainShip, bulletSound);
     }
-
-    public void resize(Rect worldBounds){
-        super.resize(worldBounds);
-    }
-
 }
