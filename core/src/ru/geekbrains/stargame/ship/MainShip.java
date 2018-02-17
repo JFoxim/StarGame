@@ -106,7 +106,7 @@ public class MainShip extends Ship {
 
     @Override
     public void touchDown(Vector2 touch, int pointer) {
-        if (worldBounds.pos.x > touch.x) {
+        if (pos.x > touch.x) {
             if (leftPointer != INVALID_POINTER) return;
             leftPointer = pointer;
             moveLeft();
