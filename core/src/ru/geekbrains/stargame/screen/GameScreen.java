@@ -28,8 +28,8 @@ import ru.geekbrains.stargame.star.TrackingStar;
 
 public class GameScreen extends Base2DScreen {
 
-    private static final int STAR_COUNT = 56;
-    private static final float STAR_HEIGHT = 0.01f;
+    private static final int STAR_COUNT = 50;
+    private static final float STAR_HEIGHT = 0.005f;
 
     private Texture backgroundTexture;
     private Background background;
@@ -117,6 +117,12 @@ public class GameScreen extends Base2DScreen {
                 continue;
             }
             for (Bullet bullet : bulletList) {
+                // нанесение урона кораблю игрока
+                if (enemyShipList.contains(bullet.getOwner()) && mainShip.isBulletCollision(bullet)) {
+                    mainShip.damage(bullet.getDamage());
+                    bullet.setDestroyed(true);
+                }
+
                 if (bullet.getOwner() != mainShip || bullet.isDestroyed()) {
                     continue;
                 }

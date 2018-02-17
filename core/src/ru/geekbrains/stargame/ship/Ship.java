@@ -71,6 +71,14 @@ public abstract class Ship extends Sprite{
     public void damage(int damage) {
         frame = 1;
         damageAnimateTimer = 0;
+        float res = hp - damage;
+        if (res <= 0) {
+            boom();
+            this.setDestroyed(true);
+        }
+        else {
+            hp = hp - damage;
+        }
     }
 
     protected void shoot() {

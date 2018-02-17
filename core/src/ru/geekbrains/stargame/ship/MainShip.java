@@ -35,6 +35,7 @@ public class MainShip extends Ship {
         this.bulletV.set(0, 0.5f);
         this.bulletDamage = 1;
         this.reloadInterval = 0.2f;
+        this.hp = 10;
     }
 
     @Override
@@ -141,5 +142,13 @@ public class MainShip extends Ship {
 
     public Vector2 getV() {
         return v;
+    }
+
+    public boolean isBulletCollision(Rect bullet) {
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > getTop()
+                || bullet.getTop() < pos.y
+        );
     }
 }
