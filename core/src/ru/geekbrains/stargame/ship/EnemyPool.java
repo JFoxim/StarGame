@@ -2,7 +2,7 @@ package ru.geekbrains.stargame.ship;
 
 import com.badlogic.gdx.audio.Sound;
 
-import ru.geekbrains.stargame.Bullet.BulletPool;
+import ru.geekbrains.stargame.bullet.BulletPool;
 import ru.geekbrains.stargame.engine.math.Rect;
 import ru.geekbrains.stargame.engine.pool.SpritesPool;
 import ru.geekbrains.stargame.explosion.ExplosionPool;

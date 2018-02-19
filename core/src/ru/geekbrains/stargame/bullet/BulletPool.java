@@ -1,4 +1,4 @@
-package ru.geekbrains.stargame.Bullet;
+package ru.geekbrains.stargame.bullet;
 
 import ru.geekbrains.stargame.engine.pool.SpritesPool;
 

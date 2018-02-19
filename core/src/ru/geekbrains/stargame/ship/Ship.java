@@ -4,8 +4,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import ru.geekbrains.stargame.Bullet.Bullet;
-import ru.geekbrains.stargame.Bullet.BulletPool;
+import ru.geekbrains.stargame.bullet.Bullet;
+import ru.geekbrains.stargame.bullet.BulletPool;
 import ru.geekbrains.stargame.engine.Sprite;
 import ru.geekbrains.stargame.engine.math.Rect;
 import ru.geekbrains.stargame.explosion.Explosion;
@@ -71,6 +71,14 @@ public abstract class Ship extends Sprite{
     public void damage(int damage) {
         frame = 1;
         damageAnimateTimer = 0;
+        hp -= damage;
+        if (hp < 0) {
+            hp = 0;
+        }
+        if (hp == 0) {
+            boom();
+            setDestroyed(true);
+        }
     }
 
     protected void shoot() {
@@ -80,11 +88,16 @@ public abstract class Ship extends Sprite{
     }
 
     public void boom() {
+        hp = 0;
         Explosion explosion = explosionPool.obtain();
         explosion.set(getHeight(), pos);
     }
 
     public int getBulletDamage() {
         return bulletDamage;
+    }
+
+    public int getHp() {
+        return hp;
     }
 }
