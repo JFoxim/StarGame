@@ -36,8 +36,8 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
     private State state;
 
-    private static final int STAR_COUNT = 56;
-    private static final float STAR_HEIGHT = 0.01f;
+    private static final int STAR_COUNT = 50;
+    private static final float STAR_HEIGHT = 0.005f;
     private static final float FONT_SIZE = 0.02f;
 
     private Texture backgroundTexture;

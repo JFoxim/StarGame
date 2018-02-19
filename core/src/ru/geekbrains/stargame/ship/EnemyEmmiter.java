@@ -71,7 +71,7 @@ public class EnemyEmmiter {
             EnemyShip enemy = enemyPool.obtain();
 
             float type = (float) Math.random();
-            if (type<0.7f) {
+            if (type < 0.7f) {
                 enemy.set(
                         enemySmallRegion,
                         enemySmallV,
