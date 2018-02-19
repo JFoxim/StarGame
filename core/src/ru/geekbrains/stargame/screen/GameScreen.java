@@ -85,7 +85,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
         soundLaser = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         soundBullet = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
 
-        backgroundTexture = new Texture("textures/bg.png");
+        backgroundTexture = new Texture("textures/sky.jpg");
         background = new Background(new TextureRegion(backgroundTexture));
 
         atlas = new TextureAtlas("textures/mainAtlas.tpack");

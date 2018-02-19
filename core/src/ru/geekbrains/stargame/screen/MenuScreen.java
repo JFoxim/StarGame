@@ -42,7 +42,7 @@ public class MenuScreen extends Base2DScreen implements ActionListener {
     @Override
     public void show() {
         super.show();
-        backgroundTexture = new Texture("textures/bg.png");
+        backgroundTexture = new Texture("textures/sky.jpg");
         background = new Background(new TextureRegion(backgroundTexture));
 
         atlas = new TextureAtlas("textures/menuAtlas.tpack");

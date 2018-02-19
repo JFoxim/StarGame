@@ -39,6 +39,8 @@ public class MainShip extends Ship {
         this.bulletV.set(0, 0.5f);
         this.bulletDamage = 1;
         this.reloadInterval = 0.2f;
+        this.pressedLeft = false;
+        this.pressedRight = false;
 
         hp = 100;
         setDestroyed(false);
@@ -112,14 +114,14 @@ public class MainShip extends Ship {
 
     @Override
     public void touchDown(Vector2 touch, int pointer) {
-        if (pos.x > touch.x) {
+        if (pos.x - this.getHalfWidth() > touch.x) {
             if (leftPointer != INVALID_POINTER) return;
-            leftPointer = pointer;
-            moveLeft();
-        } else {
+                leftPointer = pointer;
+                moveLeft();
+        } else if (pos.x + this.getHalfWidth() < touch.x) {
             if (rightPointer != INVALID_POINTER) return;
-            rightPointer = pointer;
-            moveRight();
+                rightPointer = pointer;
+                moveRight();
         }
     }
 
