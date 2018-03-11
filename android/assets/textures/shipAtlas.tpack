@@ -1,0 +1,33 @@
+
+shipAtlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+MainShip
+  rotate: false
+  xy: 1, 625
+  size: 925, 325
+  orig: 925, 325
+  offset: 0, 0
+  index: -1
+EnemyShipBig
+  rotate: false
+  xy: 1, 142
+  size: 662, 481
+  orig: 662, 481
+  offset: 0, 0
+  index: -1
+EnemyShipSmall
+  rotate: false
+  xy: 1, 1
+  size: 384, 139
+  orig: 384, 139
+  offset: 0, 0
+  index: -1
+EnemyShipAverage
+  rotate: false
+  xy: 665, 421
+  size: 298, 202
+  orig: 298, 202
+  offset: 0, 0
+  index: -1

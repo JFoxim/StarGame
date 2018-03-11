@@ -1,0 +1,38 @@
+
+AtlasShip.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+EnemyShipBig
+  rotate: false
+  xy: 1, 463
+  size: 662, 481
+  orig: 662, 481
+  offset: 0, 0
+  index: -1
+MainShip
+  rotate: false
+  xy: 1, 1
+  size: 663, 460
+  orig: 663, 460
+  offset: 0, 0
+  index: -1
+EnemyShipAverage
+  rotate: false
+  xy: 665, 742
+  size: 298, 202
+  orig: 298, 202
+  offset: 0, 0
+  index: -1
+
+AtlasShip2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+EnemyShipSmall
+  rotate: false
+  xy: 1, 1
+  size: 384, 139
+  orig: 384, 139
+  offset: 0, 0
+  index: -1
