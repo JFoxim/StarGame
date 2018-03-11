@@ -11,7 +11,7 @@ import ru.geekbrains.stargame.explosion.ExplosionPool;
 
 public class MainShip extends Ship {
 
-    private static final float SHIP_HEIGHT = 0.15f;
+    private static final float SHIP_HEIGHT = 0.1f;
     private static final float BOTTOM_MARGIN = 0.05f;
     private static final int INVALID_POINTER = -1;
 
@@ -20,6 +20,8 @@ public class MainShip extends Ship {
 
     private boolean pressedLeft;
     private boolean pressedRight;
+    private boolean pressedUp;
+    private boolean pressedDown;
 
 
 
@@ -27,8 +29,9 @@ public class MainShip extends Ship {
     private int rightPointer = INVALID_POINTER;
 
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, Sound laserSound) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2, bulletPool, explosionPool, worldBounds, laserSound);
+    public MainShip(TextureAtlas atlas, TextureAtlas atlasShip,  BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, Sound laserSound) {
+        //super(atlas.findRegion("main_ship"), 1, 2, 2, bulletPool, explosionPool, worldBounds, laserSound);
+        super(atlasShip.findRegion("MainShip"), 1, 2, 2, bulletPool, explosionPool, worldBounds, laserSound);
         setHeightProportion(SHIP_HEIGHT);
         this.bulletRegion = atlas.findRegion("bulletMainShip");
     }
@@ -41,6 +44,8 @@ public class MainShip extends Ship {
         this.reloadInterval = 0.2f;
         this.pressedLeft = false;
         this.pressedRight = false;
+        this.pressedUp = false;
+        this.pressedDown = false;
 
         hp = 100;
         setDestroyed(false);
@@ -63,6 +68,7 @@ public class MainShip extends Ship {
             setLeft(worldBounds.getLeft());
             stop();
         }
+        //TODO Добавить границы при движении вверх и вниз
     }
 
     @Override
@@ -82,6 +88,14 @@ public class MainShip extends Ship {
             case Input.Keys.RIGHT:
                 pressedRight = true;
                 moveRight();
+                break;
+            case Input.Keys.UP:
+                pressedUp = true;
+                moveUp();
+                break;
+            case Input.Keys.DOWN:
+                pressedDown = true;
+                moveDown();
                 break;
         }
     }
@@ -107,11 +121,26 @@ public class MainShip extends Ship {
                 }
                 break;
             case Input.Keys.UP:
-                shoot();
+                pressedUp = false;
+                if (pressedDown) {
+                    moveDown();
+                } else {
+                    stop();
+                }
+                break;
+            case Input.Keys.DOWN:
+                pressedDown = false;
+                if (pressedUp) {
+                    moveUp();
+                } else {
+                    stop();
+                }
                 break;
         }
     }
+    //TODO Изменить стандартную иконку приложения на Android
 
+    //TODO Добавить обработку движения вврех\вниз для Touch Screen
     @Override
     public void touchDown(Vector2 touch, int pointer) {
         if (pos.x - this.getHalfWidth() > touch.x) {
@@ -146,6 +175,14 @@ public class MainShip extends Ship {
 
     private void moveRight() {
         v.set(v0);
+    }
+
+    private void moveUp() {
+        v.set(v0).rotate(90);
+    }
+
+    private void moveDown() {
+        v.set(v0).rotate(-90);
     }
 
     private void moveLeft() {

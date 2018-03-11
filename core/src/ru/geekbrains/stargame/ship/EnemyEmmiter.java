@@ -11,7 +11,7 @@ import ru.geekbrains.stargame.engine.utils.Regions;
 
 public class EnemyEmmiter {
 
-    private static final float ENEMY_SMALL_HEIGHT = 0.1f;
+    private static final float ENEMY_SMALL_HEIGHT = 0.07f;
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final float ENEMY_SMALL_BULLET_VY = -0.3f;
     private static final int ENEMY_SMALL_BULLET_DAMAGE = 1;
@@ -25,7 +25,7 @@ public class EnemyEmmiter {
     private static final float ENEMY_MIDDLE_RELOAD_INTERVAL = 4f;
     private static final int ENEMY_MIDDLE_HP = 5;
 
-    private static final float ENEMY_BIG_HEIGHT = 0.2f;
+    private static final float ENEMY_BIG_HEIGHT = 0.3f;
     private static final float ENEMY_BIG_BULLET_HEIGHT = 0.04f;
     private static final float ENEMY_BIG_BULLET_VY = -0.3f;
     private static final int ENEMY_BIG_BULLET_DAMAGE = 10;
@@ -50,12 +50,12 @@ public class EnemyEmmiter {
 
     private int stage;
 
-    public EnemyEmmiter(EnemyPool enemyPool, Rect worldBounds, TextureAtlas atlas) {
+    public EnemyEmmiter(EnemyPool enemyPool, Rect worldBounds, TextureAtlas atlas, TextureAtlas atlasShip) {
         this.enemyPool = enemyPool;
         this.worldBounds = worldBounds;
-        enemySmallRegion = Regions.split(atlas.findRegion("enemy0"), 1, 2, 2);
-        enemyMiddleRegion = Regions.split(atlas.findRegion("enemy1"), 1, 2, 2);
-        enemyBigRegion = Regions.split(atlas.findRegion("enemy2"), 1, 2, 2);
+        enemySmallRegion = Regions.split(atlasShip.findRegion("EnemyShipSmall"), 1, 2, 2);
+        enemyMiddleRegion = Regions.split(atlasShip.findRegion("EnemyShipAverage"), 1, 2, 2);
+        enemyBigRegion = Regions.split(atlasShip.findRegion("EnemyShipBig"), 1, 2, 2);
         bulletRegion = atlas.findRegion("bulletEnemy");
     }
 

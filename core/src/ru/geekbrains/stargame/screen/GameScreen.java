@@ -44,6 +44,7 @@ public class GameScreen extends Base2DScreen implements ActionListener {
     private Background background;
 
     private TextureAtlas atlas;
+    private TextureAtlas atlasShip;
 
     private MainShip mainShip;
 
@@ -90,11 +91,13 @@ public class GameScreen extends Base2DScreen implements ActionListener {
 
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
 
+        atlasShip = new TextureAtlas("textures/shipAtlas.tpack");
+
         this.explosionPool = new ExplosionPool(atlas, soundExplosion);
-        mainShip = new MainShip(atlas, bulletPool, explosionPool, worldBounds, soundLaser);
+        mainShip = new MainShip(atlas, atlasShip, bulletPool, explosionPool, worldBounds, soundLaser);
 
         this.enemyPool = new EnemyPool(bulletPool, explosionPool, worldBounds, mainShip, soundBullet);
-        this.enemyEmmiter = new EnemyEmmiter(enemyPool, worldBounds, atlas);
+        this.enemyEmmiter = new EnemyEmmiter(enemyPool, worldBounds, atlas, atlasShip);
 
         star = new TrackingStar[STAR_COUNT];
         for (int i = 0; i < star.length; i++) {
@@ -286,7 +289,9 @@ public class GameScreen extends Base2DScreen implements ActionListener {
             buttonNewGame.touchUp(touch, pointer);
         }
     }
+    //TODO Добавить астероиды с вращением (попробовать сделать 3D), при столкновении взрыв корабля
 
+    //TODO Добавить кнопку "Пауза"
     private void startNewGame() {
         enemyEmmiter.setToNewGame();
 
